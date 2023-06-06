@@ -1,0 +1,41 @@
+.front-bank-card {
+  position: absolute;
+  width: 300px;
+  background-image: url('../assets/images/bg-card-front.png');
+  aspect-ratio: 1.75 / 1;
+  background-repeat: no-repeat;
+  background-size: auto;
+  padding: 1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  border-radius: 0.5rem;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  color: var(--clr-light-grayish-violet);
+}
+
+.card_logo {
+  width: 3rem;
+}
+
+.front-back-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--clr-ight-grayish-violet);
+}
+
+.card__info-number {
+  font-size: larger;
+}
+
+.card__info-details {
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  font-size: small;
+  font-weight: 100;
+}
