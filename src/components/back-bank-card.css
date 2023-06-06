@@ -1,0 +1,22 @@
+.back-bank-card {
+  position: absolute;
+  width: 300px;
+  background-image: url('../assets/images/bg-card-back.png');
+  aspect-ratio: 1.75 / 1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 1rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2rem;
+  border-radius: 0.5rem;
+  top: 0;
+  right: 0;
+}
+
+.back-bank-card__cvc {
+  color: var(--clr-light-grayish-violet);
+  font-size: small;
+}
