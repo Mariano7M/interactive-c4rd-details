@@ -1,0 +1,24 @@
+.thankyou {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.thankyou__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.thankyou__title {
+  font-size: xx-large;
+  font-weight: 500;
+  letter-spacing: 0.15rem;
+  color: var(--clr-very-dark-violet);
+}
+
+.thankyou__message {
+  color: var(--clr-dark-grayish-violet);
+}

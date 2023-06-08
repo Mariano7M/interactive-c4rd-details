@@ -2,6 +2,7 @@
   height: 100dvh;
   display: flex;
   flex-direction: column;
+  align-content: center;
 }
 
 .main--background {
@@ -14,6 +15,12 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 1rem 1.5rem;
+}
+
+.main__thankyou-wrap {
+  width: 100%;
+  padding: 1.5rem;
+  align-self: center;
 }
 
 @media (min-width: 456px) {

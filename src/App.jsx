@@ -4,14 +4,20 @@ import { BankCards } from './components/bank-cards';
 import './App.css';
 
 function App() {
-  const showTankYou = false;
+  const showTankYou = true;
   return (
     <div className="main main--background">
       <BankCards />
-      <section className="main__form">
-        <CardForm />
-      </section>
-      {showTankYou && <ThankYou />}
+      {!showTankYou && (
+        <section className="main__form">
+          <CardForm />
+        </section>
+      )}
+      {showTankYou && (
+        <section className="main__thankyou-wrap">
+          <ThankYou />
+        </section>
+      )}
     </div>
   );
 }
