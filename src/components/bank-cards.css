@@ -3,3 +3,11 @@
   margin: 1.25rem 1rem;
   min-height: 270px;
 }
+
+@media (min-width: 456px) {
+  .bank-cards {
+    margin: 1.25rem 1rem;
+    min-height: 420px;
+    min-width: 440px;
+  }
+}

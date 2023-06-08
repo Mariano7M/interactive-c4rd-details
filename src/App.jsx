@@ -4,10 +4,12 @@ import { BankCards } from './components/bank-cards';
 import './App.css';
 
 function App() {
-  const showTankYou = true;
+  const showTankYou = false;
   return (
     <div className="main main--background">
-      <BankCards />
+      <div>
+        <BankCards />
+      </div>
       {!showTankYou && (
         <section className="main__form">
           <CardForm />

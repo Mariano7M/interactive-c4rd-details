@@ -26,8 +26,21 @@
 @media (min-width: 456px) {
   .main {
     flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
   }
-  .background {
+
+  .main--background {
     background-image: var(--bg-main-desktop);
+  }
+
+  .main__form {
+    justify-content: center;
+  }
+
+  .main__thankyou-wrap {
+    width: 30%;
+    padding: 1.5rem;
+    align-self: center;
   }
 }
