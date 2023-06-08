@@ -1,29 +1,61 @@
+import {
+  useCardDetails,
+  useCardDetailsDispatch,
+} from '../hooks/card-details.hooks';
 import { Button } from './button';
 import './card-form.css';
 export function CardForm() {
+  const cardDetails = useCardDetails();
+  const dispatch = useCardDetailsDispatch();
+
   function onSubmitForm(event) {
     event.preventDefault();
-    console.log('🚀 ~ file: card-form.jsx:5 ~ onSubmitForm ~ e:', event);
   }
 
   function onHolderNameChange(event) {
-    console.log(event.target.value);
+    const holderNameInputValue = event.target.value;
+    dispatch({
+      type: 'ADD_CARDHOLDER_NAME',
+      cardHolderName: holderNameInputValue,
+    });
   }
 
   function onCardNumberChange(event) {
-    console.log(event.target.value);
+    let cardNumberInputValue = event.target.value.trim();
+    const cardInputValueWithoutSpace = cardNumberInputValue.replaceAll(' ', '');
+
+    const formattedCardNumber = cardInputValueWithoutSpace
+      .replace(/(\d{4})(?=)/g, '$1 ')
+      .trim();
+
+    dispatch({
+      type: 'ADD_CARD_NUMBER',
+      cardNumber: formattedCardNumber,
+    });
   }
 
   function onExpirationMonthChange(event) {
-    console.log(event.target.value);
+    const expirationMonthInputValue = event.target.value;
+    dispatch({
+      type: 'ADD_EXPIRATION_MONTH',
+      expirationMonth: expirationMonthInputValue,
+    });
   }
 
   function onExpirationYearChange(event) {
-    console.log(event.target.value);
+    const expirationYearInputValue = event.target.value;
+    dispatch({
+      type: 'ADD_EXPIRATION_YEAR',
+      expirationYear: expirationYearInputValue,
+    });
   }
 
   function onCvcChange(event) {
-    console.log(event.target.value);
+    const cvcInputValue = event.target.value;
+    dispatch({
+      type: 'ADD_CVC',
+      cvc: cvcInputValue,
+    });
   }
 
   return (
@@ -37,6 +69,7 @@ export function CardForm() {
           type="text"
           name="cardholdername"
           placeholder="e.g Jane Appleseed"
+          value={cardDetails.cardHolderName}
           onChange={(event) => onHolderNameChange(event)}
         />
       </div>
@@ -46,8 +79,10 @@ export function CardForm() {
         </label>
         <input
           className="input"
-          type="number"
+          type="text"
           name="cardnumber"
+          maxLength={19}
+          value={cardDetails.cardNumber}
           placeholder="e.g. 1234 5678 9123 000"
           onChange={(event) => onCardNumberChange(event)}
         />
@@ -64,6 +99,7 @@ export function CardForm() {
               maxLength={2}
               name="expirationDate"
               placeholder="MM"
+              value={cardDetails.expirationMonth}
               onChange={(e) => onExpirationMonthChange(e)}
             />
             <input
@@ -72,6 +108,7 @@ export function CardForm() {
               maxLength={2}
               name="expirationDate"
               placeholder="YY"
+              value={cardDetails.expirationYear}
               onChange={(e) => onExpirationYearChange(e)}
             />
           </div>
@@ -86,6 +123,7 @@ export function CardForm() {
             maxLength={3}
             name="cvc"
             placeholder="e.g 123"
+            value={cardDetails.cvc}
             onChange={(e) => onCvcChange(e)}
           />
         </div>

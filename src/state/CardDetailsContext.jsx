@@ -20,7 +20,7 @@ export function CardDetailsProvider({ children }) {
 }
 
 CardDetailsProvider.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.array,
 };
 
 const initialCardDetails = {
