@@ -57,13 +57,14 @@
     border-color: var(--clr-very-dark-violet);
     outline: none;
   }
-}
 
-.input--error {
-}
-
-.label {
+  &:invalid {
+    border-color: var(--clr-red);
+    outline: none;
+  }
 }
 
 .error__messaje {
+  color: var(--clr-red);
+  font-size: small;
 }
