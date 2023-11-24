@@ -20,7 +20,7 @@ export function CardDetailsProvider({ children }) {
 }
 
 CardDetailsProvider.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.object,
 };
 
 const initialCardDetails = {
@@ -29,6 +29,7 @@ const initialCardDetails = {
   expirationMonth: '',
   expirationYear: '',
   cvc: '',
+  isCardCompleted: false,
 };
 
 function cardDetailsReducer(cardDetails, action) {
@@ -58,6 +59,13 @@ function cardDetailsReducer(cardDetails, action) {
         ...cardDetails,
         cvc: action.cvc,
       };
+    case 'MARK_CARD_COMPLETED':
+      return {
+        ...cardDetails,
+        isCardCompleted: action.isCardCompleted,
+      };
+    case 'RESET':
+      return initialCardDetails;
     default:
       throw Error('Unknown action: ' + action.type);
   }

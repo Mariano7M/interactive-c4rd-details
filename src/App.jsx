@@ -2,22 +2,22 @@ import { ThankYou } from './components/thank-you';
 import { CardForm } from './components/card-form';
 import { BankCards } from './components/bank-cards';
 import './App.css';
-import { CardDetailsProvider } from './state/CardDetailsContext';
+import { useCardDetails } from './hooks/card-details.hooks';
 
 function App() {
-  const showTankYou = false;
+  const cardDetails = useCardDetails();
+  const showTankYou = cardDetails.isCardCompleted;
+
   return (
     <div className="main main--background">
-      <CardDetailsProvider>
-        <div>
-          <BankCards />
-        </div>
-        {!showTankYou && (
-          <section className="main__form">
-            <CardForm />
-          </section>
-        )}
-      </CardDetailsProvider>
+      <div>
+        <BankCards />
+      </div>
+      {!showTankYou && (
+        <section className="main__form">
+          <CardForm />
+        </section>
+      )}
       {showTankYou && (
         <section className="main__thankyou-wrap">
           <ThankYou />

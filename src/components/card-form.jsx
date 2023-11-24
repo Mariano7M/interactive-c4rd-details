@@ -8,7 +8,7 @@ import './card-form.css';
 export function CardForm() {
   const cardDetails = useCardDetails();
   const dispatch = useCardDetailsDispatch();
-  const CANT_BE_BLANK_ERROR = "Cant't be blank";
+  const CANT_BE_BLANK_ERROR = "Can't be blank";
   const WRONG_FORMAT_ERROR = 'Wrong format, numbers only';
   const validInput = {
     isInvalid: false,
@@ -21,99 +21,114 @@ export function CardForm() {
 
   function onSubmitForm(event) {
     event.preventDefault();
-    validateHolderName(cardDetails.cardHolderName);
-    validateCardNumber(cardDetails.cardNumber);
-    validateExpirationMonth(cardDetails.expirationMonth);
-    validateExpirationYear(cardDetails.expirationYear);
-    validateCvc(cardDetails.cvc);
+    const holderNameValidation = validateHolderName(cardDetails.cardHolderName);
+    const cardNumberValidation = validateCardNumber(cardDetails.cardNumber);
+    const expirationMonthValidation = validateExpirationMonth(
+      cardDetails.expirationMonth
+    );
+    const expirationYearValidation = validateExpirationYear(
+      cardDetails.expirationYear
+    );
+    const cvcValidation = validateCvc(cardDetails.cvc);
 
     if (
       holderNameValidation.isInvalid ||
       cardNumberValidation.isInvalid ||
-      expirationValidation.isInvalid ||
+      expirationMonthValidation.isInvalid ||
+      expirationYearValidation.isInvalid ||
       cvcValidation.isInvalid
     ) {
+      setHolderNameValidation(holderNameValidation);
+      setCardNumberValidation(cardNumberValidation);
+      setExpirationValidation(expirationMonthValidation);
+      setExpirationValidation(expirationYearValidation);
+      setCvcValidation(cvcValidation);
       return;
     }
+
+    dispatch({
+      type: 'MARK_CARD_COMPLETED',
+      isCardCompleted: true,
+    });
   }
 
   function validateHolderName(cardHolderName) {
-    setHolderNameValidation(validInput);
     if (isEmpty(cardHolderName)) {
-      setHolderNameValidation({
+      return {
         isInvalid: true,
         errorMessage: CANT_BE_BLANK_ERROR,
-      });
+      };
     }
+    return validInput;
   }
 
   function validateCardNumber(cardNumber) {
-    setCardNumberValidation(validInput);
     if (isEmpty(cardNumber)) {
       setCardNumberValidation({
         isInvalid: true,
         errorMessage: CANT_BE_BLANK_ERROR,
       });
+      return true;
     }
 
     if (hasWrongFormat(cardNumber)) {
-      setCardNumberValidation({
+      return {
         isInvalid: true,
         errorMessage: WRONG_FORMAT_ERROR,
-      });
+      };
     }
+    return validInput;
   }
 
   function validateExpirationMonth(expirationMonth) {
-    setExpirationValidation(validInput);
     if (isEmpty(expirationMonth)) {
-      setExpirationValidation({
+      return {
         isInvalid: true,
         errorMessage: CANT_BE_BLANK_ERROR,
-      });
+      };
     }
 
     if (hasWrongFormat(expirationMonth)) {
-      setExpirationValidation({
+      return {
         isInvalid: true,
         errorMessage: WRONG_FORMAT_ERROR,
-      });
+      };
     }
+    return validInput;
   }
 
   function validateExpirationYear(expirationYear) {
-    setExpirationValidation(validInput);
     if (isEmpty(expirationYear)) {
-      setExpirationValidation({
+      return {
         isInvalid: true,
         errorMessage: CANT_BE_BLANK_ERROR,
-      });
+      };
     }
 
     if (hasWrongFormat(expirationYear)) {
-      setExpirationValidation({
+      return {
         isInvalid: true,
         errorMessage: WRONG_FORMAT_ERROR,
-      });
+      };
     }
+    return validInput;
   }
 
   function validateCvc(cvc) {
-    setCvcValidation(validInput);
     if (isEmpty(cvc)) {
-      setCvcValidation({
+      return {
         isInvalid: true,
         errorMessage: CANT_BE_BLANK_ERROR,
-      });
-      return;
+      };
     }
 
     if (hasWrongFormat(cvc)) {
-      setCvcValidation({
+      return {
         isInvalid: true,
         errorMessage: WRONG_FORMAT_ERROR,
-      });
+      };
     }
+    return validInput;
   }
 
   function onHolderNameChange(event) {
@@ -122,7 +137,7 @@ export function CardForm() {
       type: 'ADD_CARDHOLDER_NAME',
       cardHolderName: holderNameInputValue,
     });
-    validateHolderName(holderNameInputValue);
+    setHolderNameValidation(validateHolderName(holderNameInputValue));
   }
 
   function onCardNumberChange(event) {
@@ -137,7 +152,7 @@ export function CardForm() {
       type: 'ADD_CARD_NUMBER',
       cardNumber: formattedCardNumber,
     });
-    validateCardNumber(formattedCardNumber);
+    setCardNumberValidation(validateCardNumber(formattedCardNumber));
   }
 
   function onExpirationMonthChange(event) {
@@ -146,7 +161,7 @@ export function CardForm() {
       type: 'ADD_EXPIRATION_MONTH',
       expirationMonth: expirationMonthInputValue,
     });
-    validateExpirationMonth(expirationMonthInputValue);
+    setExpirationValidation(validateExpirationMonth(expirationMonthInputValue));
   }
 
   function onExpirationChange(event) {
@@ -155,7 +170,7 @@ export function CardForm() {
       type: 'ADD_EXPIRATION_YEAR',
       expirationYear: expirationYearInputValue,
     });
-    validateExpirationYear(expirationYearInputValue);
+    setExpirationValidation(validateExpirationYear(expirationYearInputValue));
   }
 
   function onCvcChange(event) {
@@ -164,7 +179,7 @@ export function CardForm() {
       type: 'ADD_CVC',
       cvc: cvcInputValue,
     });
-    validateCvc(cvcInputValue);
+    setCvcValidation(validateCvc(cvcInputValue));
   }
 
   function hasWrongFormat(value) {
@@ -184,6 +199,7 @@ export function CardForm() {
         <input
           className="input"
           type="text"
+          id="cardholdername"
           name="cardholdername"
           placeholder="e.g Jane Appleseed"
           value={cardDetails.cardHolderName}
@@ -202,6 +218,7 @@ export function CardForm() {
         <input
           className="input"
           type="text"
+          id="cardnumber"
           name="cardnumber"
           maxLength={19}
           value={cardDetails.cardNumber}
@@ -216,15 +233,16 @@ export function CardForm() {
       </div>
       <div className="card-form__details-group">
         <div className="card-form__expiration-group">
-          <label className="label" htmlFor="expirationDate">
+          <label className="label" htmlFor="expirationMonthDate">
             Exp. Date (MM/YY)
           </label>
           <div className="card-form__expiration-inputs">
             <input
               className="input"
               type="text"
+              id="expirationMonthDate"
               maxLength={2}
-              name="expirationDate"
+              name="expirationMonthDate"
               placeholder="MM"
               value={cardDetails.expirationMonth}
               onChange={(e) => onExpirationMonthChange(e)}
@@ -233,7 +251,7 @@ export function CardForm() {
               className="input"
               type="text"
               maxLength={2}
-              name="expirationDate"
+              name="expirationYearDate"
               placeholder="YY"
               value={cardDetails.expirationYear}
               onChange={(e) => onExpirationChange(e)}
@@ -252,6 +270,7 @@ export function CardForm() {
           <input
             className="input"
             type="text"
+            id="cvc"
             maxLength={3}
             name="cvc"
             placeholder="e.g 123"
@@ -263,7 +282,7 @@ export function CardForm() {
           )}
         </div>
       </div>
-      <Button type="submit" text="Confirm" />
+      <Button type="submit" text="Confirm" onHandleClick={onSubmitForm} />
     </form>
   );
 }
