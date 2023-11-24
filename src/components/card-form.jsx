@@ -64,11 +64,10 @@ export function CardForm() {
 
   function validateCardNumber(cardNumber) {
     if (isEmpty(cardNumber)) {
-      setCardNumberValidation({
+      return {
         isInvalid: true,
         errorMessage: CANT_BE_BLANK_ERROR,
-      });
-      return true;
+      };
     }
 
     if (hasWrongFormat(cardNumber)) {
